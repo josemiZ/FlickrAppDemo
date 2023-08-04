@@ -1,6 +1,7 @@
 package com.josemiz.flickrapp.tv.search.view
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,12 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -36,8 +34,10 @@ import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.foundation.lazy.grid.items
 import androidx.tv.material3.ButtonDefaults
+import androidx.tv.material3.Card
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.IconButton
+import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.josemiz.flickrapp.R
@@ -45,7 +45,7 @@ import com.josemiz.flickrapp.entity.PhotoColumn
 import com.josemiz.flickrapp.entity.PhotoEntity
 import com.josemiz.flickrapp.tv.search.viewmodel.TvViewModel
 
-@OptIn(ExperimentalTvMaterial3Api::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun PhotoSearch(
     viewModel: TvViewModel
@@ -60,6 +60,7 @@ fun PhotoSearch(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Black)
             .padding(40.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -68,7 +69,7 @@ fun PhotoSearch(
                 shape = ButtonDefaults.shape(CircleShape),
                 onClick = { viewModel.searchPhotos(inputValue.value.text) }
             ) {
-                Icon(
+                Image(
                     painter = painterResource(id = R.drawable.baseline_search_96),
                     modifier = Modifier
                         .background(color = Color.Cyan)
@@ -77,9 +78,10 @@ fun PhotoSearch(
                 )
 
             }
-            TextField(value = inputValue.value,
-                placeholder = { Text(text = "Search") },
+            BasicTextField(value = inputValue.value,
                 modifier = Modifier
+                    .padding(all = 10.dp)
+                    .background(Color.White)
                     .padding(all = 16.dp)
                     .fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
@@ -112,44 +114,49 @@ fun PhotoGrid(photoColumn: PhotoColumn?) {
                     PhotoCard(photoEntity = it)
                 }
             })
-        } ?: CircularProgressIndicator()
+        }
     }
 }
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun PhotoCard(photoEntity: PhotoEntity) {
-    Box(
+    Card(
+        onClick = {},
         modifier = Modifier
             .padding(10.dp)
             .fillMaxSize()
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(photoEntity.url)
-                .placeholder(R.drawable.app_icon_your_company)
-                .crossfade(true)
-                .build(),
-            modifier = Modifier.height(180.dp),
-            placeholder = painterResource(R.drawable.app_icon_your_company),
-            contentDescription = photoEntity.title,
-            contentScale = ContentScale.Crop,
-        )
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .fillMaxWidth()
-                .background(color = Color.Black.copy(alpha = 0.6f))
-                .padding(5.dp)
-        ) {
-            Text(
-                text = photoEntity.title,
-                color = Color.White,
-                modifier = Modifier.padding(vertical = 5.dp)
+        Box {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(photoEntity.url)
+                    .placeholder(R.drawable.app_icon_your_company)
+                    .crossfade(true)
+                    .build(),
+                modifier = Modifier.height(180.dp),
+                placeholder = painterResource(R.drawable.app_icon_your_company),
+                contentDescription = photoEntity.title,
+                contentScale = ContentScale.Crop,
             )
-            Text(
-                text = photoEntity.date,
-                color = Color.White
-            )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .fillMaxWidth()
+                    .background(color = Color.Black.copy(alpha = 0.6f))
+                    .padding(5.dp)
+            ) {
+                Text(
+                    text = photoEntity.title,
+                    color = Color.White,
+                    maxLines = 2,
+                    modifier = Modifier.padding(vertical = 5.dp)
+                )
+                Text(
+                    text = photoEntity.date,
+                    color = Color.White
+                )
+            }
         }
     }
 }

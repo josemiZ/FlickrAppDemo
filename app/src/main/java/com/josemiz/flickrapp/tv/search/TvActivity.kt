@@ -4,11 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Surface
+import com.josemiz.flickrapp.tv.search.view.Example
 import com.josemiz.flickrapp.tv.search.view.PhotoSearch
 import com.josemiz.flickrapp.tv.search.viewmodel.TvViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @AndroidEntryPoint
 class TvActivity : ComponentActivity() {
 

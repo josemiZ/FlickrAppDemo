@@ -65,10 +65,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
     implementation("androidx.leanback:leanback:1.0.0")
     // Compose for TV dependencies
     val tvCompose = "1.0.0-alpha07"
